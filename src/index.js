@@ -1,7 +1,9 @@
 // index.js
 import React from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import App from './App';
 
 // root아이디를 가진 DOM에 랜더링하기
-ReactDom.render(<App />, document.getElementById('root'));
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
