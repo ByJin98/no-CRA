@@ -9,6 +9,8 @@ import VarRef from './UseRef/VarRef';
 import Count from './UseRef/Count';
 import InputRef from './UseRef/InputRef';
 import UseContext from './UseContext';
+import UseMemo from './UseMemo';
+import Airplane from './UseMemo/Airplane';
 
 const App = () => {
   return (
@@ -28,7 +30,11 @@ const App = () => {
       {/* <InputRef /> */}
 
       {/** useContext */}
-      <UseContext />
+      {/* <UseContext /> */}
+
+      {/** useMemo */}
+      {/* <UseMemo /> */}
+      <Airplane />
     </>
   );
 };
