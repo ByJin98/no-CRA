@@ -7,6 +7,8 @@ import CleanUP from './UseEffect/CleanUP';
 import UseRef from './UseRef';
 import VarRef from './UseRef/VarRef';
 import Count from './UseRef/Count';
+import InputRef from './UseRef/InputRef';
+import UseContext from './UseContext';
 
 const App = () => {
   return (
@@ -22,7 +24,11 @@ const App = () => {
       {/** useRef */}
       {/* <UseRef /> */}
       {/* <VarRef /> */}
-      <Count />
+      {/* <Count /> */}
+      {/* <InputRef /> */}
+
+      {/** useContext */}
+      <UseContext />
     </>
   );
 };
