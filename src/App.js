@@ -11,30 +11,36 @@ import InputRef from './UseRef/InputRef';
 import UseContext from './UseContext';
 import UseMemo from './UseMemo';
 import Airplane from './UseMemo/Airplane';
+import UseCallback from './UseCallback';
+import Size from './UseCallback/Size';
 
 const App = () => {
   return (
     <>
-      {/** useState */}
+      {/*//! useState */}
       {/* <UseState /> */}
       {/* <Upload /> */}
 
-      {/** useEffect */}
+      {/*//! useEffect */}
       {/* <UseEffect /> */}
       {/* <CleanUP /> */}
 
-      {/** useRef */}
+      {/*//! useRef */}
       {/* <UseRef /> */}
       {/* <VarRef /> */}
       {/* <Count /> */}
       {/* <InputRef /> */}
 
-      {/** useContext */}
+      {/*//! useContext */}
       {/* <UseContext /> */}
 
-      {/** useMemo */}
+      {/*//! useMemo */}
       {/* <UseMemo /> */}
-      <Airplane />
+      {/* <Airplane /> */}
+
+      {/*//! useCallback */}
+      {/* <UseCallback /> */}
+      <Size />
     </>
   );
 };
