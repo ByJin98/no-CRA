@@ -13,6 +13,8 @@ import UseMemo from './UseMemo';
 import Airplane from './UseMemo/Airplane';
 import UseCallback from './UseCallback';
 import Size from './UseCallback/Size';
+import UseReducer from './UseReducer';
+import Students from './UseReducer/Students';
 
 const App = () => {
   return (
@@ -40,7 +42,11 @@ const App = () => {
 
       {/*//! useCallback */}
       {/* <UseCallback /> */}
-      <Size />
+      {/* <Size /> */}
+
+      {/*//! useReducer */}
+      {/* <UseReducer /> */}
+      <Students />
     </>
   );
 };
