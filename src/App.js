@@ -15,6 +15,8 @@ import UseCallback from './UseCallback';
 import Size from './UseCallback/Size';
 import UseReducer from './UseReducer';
 import Students from './UseReducer/Students';
+import Memo from './Memo';
+import Name from './Memo/Name';
 
 const App = () => {
   return (
@@ -46,7 +48,11 @@ const App = () => {
 
       {/*//! useReducer */}
       {/* <UseReducer /> */}
-      <Students />
+      {/* <Students /> */}
+
+      {/*//! React.memo */}
+      {/* <Memo /> */}
+      <Name />
     </>
   );
 };
