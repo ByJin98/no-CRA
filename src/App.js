@@ -17,6 +17,8 @@ import UseReducer from './UseReducer';
 import Students from './UseReducer/Students';
 import Memo from './Memo';
 import Name from './Memo/Name';
+import Input from './CustomHooks/Input';
+import Fetch from './CustomHooks/Fetch';
 
 const App = () => {
   return (
@@ -52,7 +54,11 @@ const App = () => {
 
       {/*//! React.memo */}
       {/* <Memo /> */}
-      <Name />
+      {/* <Name /> */}
+
+      {/*//! CustomHook */}
+      {/* <Input /> */}
+      <Fetch />
     </>
   );
 };
