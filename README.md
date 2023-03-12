@@ -84,24 +84,28 @@ PORT = '3000';
 ```js
 // webpack.config.js
 const webpack = require('webpack');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 
+const defaultPort = parseInt(process.env.PORT, 10);
 module.exports = {
   mode: process.env.MODE, // 만약 환경변수를 사용하지 않는다면 직접 'development' 입력
-  entry: './src/index.js',
+  entry: './src/index.js', // 1. 시작파일
   output: {
+    // 2. 최종파일을 내보내는 옵션
     // 번들링 결과 : /dist폴더
-    path: __dirname + '/dist',
+    path: __dirname + '/dist', // 하위에 dist폴더를 의미
     // bundle.해쉬.js로 생성
-    filename: 'bundle.[hash].js',
+    filename: 'bundle.[hash].js', // 파일이름
     publicPath: '/',
   },
   resolve: {
     // 번들링을 할 파일 설정
     extensions: ['.js', '.jsx'],
   },
+  // loader를 설정하는 곳
   module: {
     // loader 설정 - 등록한 로더의 뒤의 요소부터 번들링에 반영
     // node_modules 제외
@@ -124,22 +128,28 @@ module.exports = {
       },
     ],
   },
+  // 가져올 플러그인들
   plugins: [
     // 빌드 이전 결과물을 제거
     new CleanWebpackPlugin(),
-    // 번들한 css파일과 js파일을 html 파일에 link 태그, script태그로 추가
+    // 번들한 css파일과 js파일을 html 파일에 link 태그, script태그로 추가하기
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
+      template: 'public/index.html', // 해당경로의 파일을 바탕으로 만든다!
     }),
     // 환경 정보를 제공
     new webpack.DefinePlugin({
       mode: process.env.MODE,
-      port: process.env.PORT,
+      port: defaultPort,
     }),
   ],
+  // 개발할 때 사용하기 위한 서버
   devServer: {
-    host: 'localhost',
-    port: process.env.PORT,
+    // 파일경로를 작성해주기
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    // 포트 정해주기
+    port: defaultPort,
     open: true,
     historyApiFallback: true,
     // hot : 모듈의 변화된 부분만 서버에 자동으로 반영
@@ -158,3 +168,64 @@ module.exports = {
   "build": "webpack --progress --mode production"
 }
 ```
+
+### 실제 서비스 개발 시 .env파일 사용법
+
+- .env : 기본
+- .env.local, .env.development.local : 로컬 override
+- .env.development, .env.production : 환경 별 설정
+
+> CRA을 사용한 프로젝트에서는 env파일을 사용하는 우선순위가 정해져있고 override로 커스터마이징 할 수 없다!
+
+- 우선순위
+
+  - npm start: .env.development.local, .env.local, .env.development, .env
+  - npm run build: .env.production.local, .env.local, .env.production, .env
+  - npm test: .env.test.local, .env.test, .env
+
+```js
+배포 시 build를 할때 build:dev는 development를,
+build:prod는 production을 실행하고 싶어도 build라는 명령어는 무조건 .env.production을 실행하게 되어있다!
+"scripts": {
+  	"build:prod": "NODE_ENV=production react-script build",
+	"build:dev": "NODE_ENV=development react-script build"
+}
+
+```
+
+> CRA를 사용하여 환경변수를 만든다면 반드시 REACT_APP이 반드시반드시!!!!!!꼭 붙어야 한다!
+
+```
+그 이유는 dotenv라는 라이브러리를 사용하는데 해당 라이브러리의 동작 방식이 그렇다!
+
+```
+
+- MY_PORT X
+- REACT_APP_MY_PORT O
+
+### env-cmd의 사용 이유
+
+- 환경변수를 build 시에 분기할 수 있는 방법 중 하나!
+- dotenv와 동일한 원리로 동작한다!
+- REACT_APP으로 시작해야한다!
+- CRA가 사용하는 모든 env파일 보다 우선시한다!
+  - CRA로 만들어도 분기처리가 가능하단 말!
+
+```js
+  npm i env-cmd
+```
+
+설치만 해준다면 위의 build:prod, build:dev 방식으로 scripts를 작성하면 정상적으로 분기처리가 된다!
+
+```js
+"scripts": {
+	"build:prod": "react-script build",
+	"build:dev": "env-cmd -f .env.development react-script build",
+	...
+}
+```
+
+- env-cmd -f .env.development
+  - ".env.development" 파일에서 환경 변수를 로드하도록 env-cmd에 지시한다!
+- 문제점?
+  - NODE_ENV 자체는 변경되지 않는다.
